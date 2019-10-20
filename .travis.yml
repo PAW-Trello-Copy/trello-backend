@@ -1,6 +1,10 @@
 os: osx
 language: swift
 osx_image: xcode11
+addons:
+  homebrew:
+    packages:
+    - libressl
 before_script:
 - gem install xcpretty
 script:
