@@ -1,20 +1,15 @@
-os:
-  - linux
-  - osx
-language: generic
-sudo: required
-dist: trusty
-osx_image: xcode7.3
-install:
-  - eval "$(curl -sL https://gist.githubusercontent.com/kylef/5c0475ff02b7c7671d2a/raw/02090c7ede5a637b76e6df1710e83cd0bbe7dcdf/swiftenv-install.sh)"
+os: osx
+language: swift
+osx_image: xcode11
+before_script:
+- gem install xcpretty
 script:
-  - swift build
-  - swift build -c release
-  - swift test
+- swift package generate-xcodeproj
+- set -o pipefail && xcodebuild -scheme backend-Package clean build test | xcpretty
 deploy:
     provider: heroku
     api_key:
-        secure: 481b1f57-9036-4b49-ae28-b799ddc92b87
-    app: trello-copy-backend
+        secure: 55feebef-2dd0-4711-b02a-589002626d61
+    app: paw-trello-backend
     on:
         branch: master
