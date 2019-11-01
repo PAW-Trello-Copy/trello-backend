@@ -5,6 +5,7 @@ public func routes(_ router: Router) throws {
 
     
     
-    let tableContoller = TableController()
-    router.get("all", use: tableContoller.all)
+    let tableController = TableController()
+    router.get("all", use: tableController.all)
+    router.post("create", use: tableController.create)
 }
