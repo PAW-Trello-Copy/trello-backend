@@ -4,15 +4,18 @@ import Vapor
 public func routes(_ router: Router) throws {
 
     
-    
     let tableController = TableController()
-    router.get("tables", use: tableController.all)
-    router.post(CreateTableRequest.self, at: "tables", "create", use: tableController.createNewTable)
-    router.put(TableUpdateRequest.self, at: "tables", Table.parameter, "update", "title", use: tableController.updateTableTitle)
+    let tables = router.grouped("tables")
+    
+    tables.get(use: tableController.all)
+    tables.post(CreateTableRequest.self, at: "create", use: tableController.createNewTable)
+    tables.put(TableUpdateRequest.self, at: Table.parameter, "update", "title", use: tableController.updateTableTitle)
     
     let listController = ListController()
-    router.post(CreateListRequest.self, at: "lists", "create", use: listController.create)
-    router.get("lists", use: listController.getAll)
-    router.get("lists", List.parameter, use: listController.getById)
+    let lists = router.grouped("lists")
+    
+    lists.post(CreateListRequest.self, at: "create", use: listController.create)
+    lists.get(use: listController.getAll)
+    lists.get(List.parameter, use: listController.getById)
 }
     
