@@ -19,7 +19,7 @@ before_script:
 - gem install xcpretty
 script:
 - swift package generate-xcodeproj
-- set -o pipefail && xcodebuild -scheme backend-Package clean build test | xcpretty
+- set -o pipefail && xcodebuild -scheme backend-Package build test | xcpretty
 deploy:
     provider: heroku
     api_key:
