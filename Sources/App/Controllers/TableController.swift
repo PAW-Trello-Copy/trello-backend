@@ -13,6 +13,10 @@ class TableController {
     func all(_ req: Request) -> Future<[Table]> {
         return Table.query(on: req).all()
     }
+    
+    func getById(_ req: Request) throws -> Future<Table> {
+        return try req.parameters.next(Table.self)
+    }
 
     func createNewTable(_ req: Request, content: CreateTableRequest) throws -> Future<Table> {
         return Table(title: content.title).save(on: req)

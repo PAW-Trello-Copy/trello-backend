@@ -8,6 +8,7 @@ public func routes(_ router: Router) throws {
     let tables = router.grouped("tables")
     
     tables.get(use: tableController.all)
+    tables.get(Table.parameter, use: tableController.getById)
     tables.post(CreateTableRequest.self, at: "create", use: tableController.createNewTable)
     tables.put(TableUpdateRequest.self, at: Table.parameter, "update", "title", use: tableController.updateTableTitle)
     
