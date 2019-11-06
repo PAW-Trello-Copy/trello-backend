@@ -72,6 +72,22 @@ Example:
 }
 ```
 
+### Get all lists associated with table: "/tables/{tableId}/lists"
+Example:
+- GET /tables/1/lists/
+- Response:
+```javascript
+{
+    [
+        {
+            "id": Int,
+            "tableId": 1,
+            "title": String
+        }, ...
+    ]
+}
+```
+
 ### Get lists by id: /{id}
 Example:
 - GET /lists/1
