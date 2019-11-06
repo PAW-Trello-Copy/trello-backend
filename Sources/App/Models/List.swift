@@ -17,6 +17,7 @@ final class List: PostgreSQLModel {
     init(id: Int? = nil, title: String, tableId: Table.ID) {
         self.id = id
         self.title = title
+        self.tableId = tableId
     }
 }
 

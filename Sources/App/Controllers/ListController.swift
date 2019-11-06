@@ -26,6 +26,12 @@ class ListController {
     func getById(_ req: Request) throws -> Future<List> {
         return try req.parameters.next(List.self)
     }
+    
+    func getAllForTable(_ req: Request) throws -> Future<[List]> {
+        return try req.parameters.next(Table.self).then { table -> Future<[List]> in
+            return List.query(on: req).filter(\.tableId == table.id).all()
+        }
+    }
 }
 
 
