@@ -23,10 +23,7 @@ class TableController {
     }
 
     func updateTableTitle(_ req: Request, content: TableUpdateRequest) throws -> Future<HTTPStatus> {
-        return Table.query(on: req).filter(\.id == content.id).first().flatMap { table -> Future<Table> in
-            guard let table = table else {
-                throw Abort(.custom(code: 409, reasonPhrase: "Table with id \(content.id) was not found"))
-            }
+        return try req.parameters.next(Table.self).map { table -> Future<Table> in
             table.title = content.title
             return table.save(on: req)
         }.transform(to: .ok)
@@ -43,6 +40,5 @@ struct TableResponse: Content {
 }
 
 struct TableUpdateRequest: Content {
-    var id: Int
     var title: String
    }

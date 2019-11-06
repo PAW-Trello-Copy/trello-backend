@@ -46,7 +46,6 @@ Example:
 - Body:
 ```javascript
 {
-    "id": Int,
     "title": String
 }
 ```
