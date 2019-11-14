@@ -1,7 +1,7 @@
 import Vapor
 
 /// Register your application's routes here.
-public func routes(_ router: Router) throws {
+public func routes(_ router: Router, _ app: Container) throws {
 
     
     let tableController = TableController()
@@ -21,5 +21,12 @@ public func routes(_ router: Router) throws {
     lists.get(List.parameter, use: listController.getById)
     
     tables.get(Table.parameter, "lists", use: listController.getAllForTable)
+    
+    let cardRepository = try app.make(CardRepository.self)
+    let cardController = CardController(cardRepository: cardRepository)
+    
+    router.get("cards", use: cardController.all)
+    router.get("cards", Card.parameter, use: cardController.byId)
+    router.post(CreateCardRequest.self, at: "lists", List.parameter, "cards", "create", use: cardController.create)
 }
     
