@@ -37,6 +37,7 @@ public func configure(_ config: inout Config, _ env: inout Environment, _ servic
     var migrations = MigrationConfig()
     migrations.add(model: Table.self, database: .psql)
     migrations.add(model: List.self, database: .psql)
+    migrations.add(model: Card.self, database: .psql)
     services.register(migrations)
 }
 
