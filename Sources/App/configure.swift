@@ -6,6 +6,7 @@ import Authentication
 public func configure(_ config: inout Config, _ env: inout Environment, _ services: inout Services) throws {
     // Register providers first
     try services.register(FluentPostgreSQLProvider())
+    try services.register(AuthenticationProvider())
     
     // Register routes to the router
     let router = EngineRouter.default()

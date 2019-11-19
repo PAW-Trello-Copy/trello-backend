@@ -31,7 +31,7 @@ final class User: PostgreSQLModel {
 extension User: PasswordAuthenticatable {
     /// See `PasswordAuthenticatable`.
     static var usernameKey: WritableKeyPath<User, String> {
-        return \.email
+        return \.name
     }
     
     /// See `PasswordAuthenticatable`.
