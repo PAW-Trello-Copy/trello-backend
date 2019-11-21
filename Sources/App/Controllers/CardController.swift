@@ -40,17 +40,3 @@ class CardController {
         }.transform(to: .ok)
     }   
 }
-
-
-struct CreateCardRequest: Content {
-    var listId: List.ID
-    var title: String
-}
-
-struct UpdateCardTitleRequest: Content {
-    var title: String
-}
-
-struct UpdateCardDescriptionRequest: Content {
-    var description: String
-}

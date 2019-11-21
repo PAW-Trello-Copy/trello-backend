@@ -33,16 +33,3 @@ class TableController {
         }.transform(to: .ok)
     }
 }
-
-struct CreateTableRequest: Content {
-    var title: String
-}
-
-struct TableResponse: Content {
-    var id: Int?
-    var title: String
-}
-
-struct TableUpdateRequest: Content {
-    var title: String
-   }
