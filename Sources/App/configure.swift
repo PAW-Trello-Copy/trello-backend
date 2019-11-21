@@ -42,6 +42,7 @@ public func configure(_ config: inout Config, _ env: inout Environment, _ servic
     migrations.add(model: Card.self, database: .psql)
     migrations.add(model: User.self, database: .psql)
     migrations.add(model: UserToken.self, database: .psql)
+    migrations.add(model: UserAndTable.self, database: .psql)
     services.register(migrations)
 
     try services.register(AuthenticationProvider())
