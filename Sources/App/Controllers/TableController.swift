@@ -10,8 +10,9 @@ import Vapor
 
 class TableController {
     
-    func all(_ req: Request) -> Future<[Table]> {
-        return Table.query(on: req).all()
+    func all(_ req: Request) throws  -> Future<[Table]> {
+        let user = try req.requireAuthenticated(User.self)
+        return try user.tables.query(on: req).all()
     }
     
     func getById(_ req: Request) throws -> Future<Table> {
@@ -19,7 +20,10 @@ class TableController {
     }
 
     func createNewTable(_ req: Request, content: CreateTableRequest) throws -> Future<Table> {
-        return Table(title: content.title).save(on: req)
+        let user = try req.requireAuthenticated(User.self)
+        return Table(title: content.title).save(on: req).flatMap { table in
+            return table.users.attach(user, on: req).map { _ in return table }
+        }
     }
 
     func updateTableTitle(_ req: Request, content: TableUpdateRequest) throws -> Future<HTTPStatus> {
@@ -29,16 +33,3 @@ class TableController {
         }.transform(to: .ok)
     }
 }
-
-struct CreateTableRequest: Content {
-    var title: String
-}
-
-struct TableResponse: Content {
-    var id: Int?
-    var title: String
-}
-
-struct TableUpdateRequest: Content {
-    var title: String
-   }

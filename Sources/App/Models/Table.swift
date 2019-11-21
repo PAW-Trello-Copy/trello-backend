@@ -12,6 +12,10 @@ final class Table: PostgreSQLModel {
     
     var id: Int?
     var title: String
+    
+    var users: Siblings<Table, User, UserAndTable> {
+        return siblings()
+    }
 
      init(id: Int? = nil, title: String) {
         self.id = id

@@ -33,9 +33,3 @@ class ListController {
         }
     }
 }
-
-
-struct CreateListRequest: Content {
-    var tableId: Table.ID
-    var title: String
-}
