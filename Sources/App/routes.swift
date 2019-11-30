@@ -22,6 +22,8 @@ public func routes(_ router: Router) throws {
     tables.get(Table.parameter, use: tableController.getById)
     tables.post(CreateTableRequest.self, at: "create", use: tableController.createNewTable)
     tables.put(TableUpdateRequest.self, at: Table.parameter, "update", "title", use: tableController.updateTableTitle)
+    tables.put(UpdateTableStateRequest.self, at: Table.parameter, "update", "archived", use: tableController.updateTableState)
+    tables.delete(Table.parameter, use: tableController.deleteById)
     
     
     let listController = ListController()
