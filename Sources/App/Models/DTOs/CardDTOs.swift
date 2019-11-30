@@ -19,3 +19,7 @@ struct UpdateCardTitleRequest: Content {
 struct UpdateCardDescriptionRequest: Content {
     var description: String
 }
+
+struct UpdateCardStateRequest: Content {
+    var archived: Bool
+}
