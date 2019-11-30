@@ -41,8 +41,21 @@ public func routes(_ router: Router) throws {
     cards.post(CreateCardRequest.self, at: "create", use: cardController.create)
     cards.put(UpdateCardTitleRequest.self, at: Card.parameter, "update", "title", use: cardController.updateCardTitle)
     cards.put(UpdateCardDescriptionRequest.self, at: Card.parameter, "update", "description", use: cardController.updateCardDescription)
+    cards.put(UpdateCardStateRequest.self, at: Card.parameter, "update", "archived", use: cardController.updateCardState)
+    cards.delete(Card.parameter, use: cardController.deleteById)
 
     lists.get(List.parameter, "cards", use: cardController.getAllForList)
+
+    let commentController = CommentController()
+    let comments = bearer.grouped("comments")
+
+    comments.get(use: commentController.getAll)
+    comments.get(Comment.parameter, use: commentController.getById)
+    comments.post(CreateCommentRequest.self, at: "create", use: commentController.create)
+    comments.put(UpdateCommentTextRequest.self, at: Comment.parameter, "update", "text", use: commentController.updateCommentText)
+
+    cards.get(Card.parameter, "comments", use: commentController.getAllForCard)
+
     
     
 }

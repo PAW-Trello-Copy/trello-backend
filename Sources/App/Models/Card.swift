@@ -7,12 +7,14 @@ final class Card: PostgreSQLModel {
     var listId: List.ID?
     var title: String
     var description: String?
+    var archived: Bool?
 
-    init(id: Int? = nil, title: String, listId: List.ID, description: String? = nil) {
+    init(id: Int? = nil, title: String, listId: List.ID, description: String? = nil, archived: Bool? = false) {
         self.id = id
         self.title = title
         self.listId = listId
         self.description = description
+        self.archived = archived
     }
 }
 
@@ -23,8 +25,10 @@ extension Card: Migration {
             builder.field(for: \.listId)
             builder.field(for: \.title)
             builder.field(for: \.description)
+            builder.field(for: \.archived)
         }
     }
 }
 
 extension Card: Content, Parameter { }
+
