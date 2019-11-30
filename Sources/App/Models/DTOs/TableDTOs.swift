@@ -19,3 +19,7 @@ struct TableResponse: Content {
 struct TableUpdateRequest: Content {
     var title: String
 }
+
+struct UpdateTableStateRequest: Content {
+    var archived: Bool
+}

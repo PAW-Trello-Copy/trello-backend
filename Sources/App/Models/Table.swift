@@ -12,14 +12,16 @@ final class Table: PostgreSQLModel {
     
     var id: Int?
     var title: String
+    var archived: Bool?
     
     var users: Siblings<Table, User, UserAndTable> {
         return siblings()
     }
 
-     init(id: Int? = nil, title: String) {
+     init(id: Int? = nil, title: String, archived: Bool? = false) {
         self.id = id
         self.title = title
+        self.archived = archived
     }
 }
 
@@ -28,6 +30,7 @@ extension Table: Migration {
         return PostgreSQLDatabase.create(Table.self, on: conn) { builder in
             builder.field(for: \.id, isIdentifier: true)
             builder.field(for: \.title)
+            builder.field(for: \.archived)
         }
     }
 }
