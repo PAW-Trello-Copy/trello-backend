@@ -17,4 +17,5 @@ public func migrate(migrations: inout MigrationConfig) throws {
     migrations.add(model: Card.self, database: .psql)
     migrations.add(model: Comment.self, database: .psql)
     
+    migrations.add(migration: AddCardArchivization.self, database: .psql)
 }
