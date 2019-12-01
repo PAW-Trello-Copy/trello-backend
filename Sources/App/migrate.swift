@@ -9,6 +9,7 @@ import Vapor
 import FluentPostgreSQL
 
 public func migrate(migrations: inout MigrationConfig) throws {
+    //table creations
     migrations.add(model: User.self, database: .psql)
     migrations.add(model: UserToken.self, database: .psql)
     migrations.add(model: UserAndTable.self, database: .psql)
@@ -16,7 +17,9 @@ public func migrate(migrations: inout MigrationConfig) throws {
     migrations.add(model: List.self, database: .psql)
     migrations.add(model: Card.self, database: .psql)
     migrations.add(model: Comment.self, database: .psql)
+    migrations.add(model: Attachment.self, database: .psql)
     
+    //table updates
     migrations.add(migration: AddCardArchivization.self, database: .psql)
     migrations.add(migration: AddTableArchivization.self, database: .psql)
 }

@@ -59,6 +59,16 @@ public func routes(_ router: Router) throws {
     cards.get(Card.parameter, "comments", use: commentController.getAllForCard)
 
     
+    let attachmentController = AttachmentController()
     
+    cards.post(AttachmentUploadRequest.self, at: Card.parameter, "attachments", use: attachmentController.uploadForCard)
+    cards.get(Card.parameter, "attachments", use: attachmentController.getAttachmentsListForCard)
+    
+    comments.post(AttachmentUploadRequest.self, at: Comment.parameter, "attachments", use: attachmentController.uploadForComment)
+    comments.get(Comment.parameter, "attachments", use: attachmentController.getAttachmentsListForComment)
+    
+    let attachments = bearer.grouped("attachments")
+    attachments.get(Int.parameter, use:attachmentController.getAttachmentById)
+    attachments.delete(Attachment.parameter, use: attachmentController.deleteAttachment)
 }
     
