@@ -22,7 +22,8 @@ class CardController {
     
     func getAllForList(_ req: Request) throws -> Future<[Card]> {
         return try req.parameters.next(List.self).then { list -> Future<[Card]> in
-            return Card.query(on: req).filter(\.listId == list.id).all()
+            let archived: Bool = (try? req.query.get(Bool.self, at: "archived")) ?? false
+            return Card.query(on: req).filter(\.listId == list.id).filter(\.archived == archived).all()
         }
     }
 
