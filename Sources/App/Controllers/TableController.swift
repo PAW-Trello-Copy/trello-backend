@@ -12,7 +12,8 @@ class TableController {
     
     func all(_ req: Request) throws  -> Future<[Table]> {
         let user = try req.requireAuthenticated(User.self)
-        return try user.tables.query(on: req).all()
+        let archived: Bool = (try? req.query.get(Bool.self, at: "archived")) ?? false
+        return try user.tables.query(on: req).filter(\.archived == archived).all()
     }
     
     func getById(_ req: Request) throws -> Future<Table> {
