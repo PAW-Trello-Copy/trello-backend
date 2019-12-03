@@ -15,6 +15,8 @@ public func routes(_ router: Router) throws {
     // bearer / token auth protected routes
     let bearer = router.grouped([User.tokenAuthMiddleware(), User.guardAuthMiddleware()])
     
+    bearer.get("users", User.parameter, use: userController.getById)
+    
     let tableController = TableController()
     let tables = bearer.grouped("tables")
     

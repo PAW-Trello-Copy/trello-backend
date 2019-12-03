@@ -16,6 +16,12 @@ final class UserController {
         return token.save(on: req)
     }
     
+    func getById(_ req: Request) throws -> Future<UserResponse> {
+        return try req.parameters.next(User.self).map { user in
+            return UserResponse(id: try user.requireID(), name: user.name, email: user.email)
+        }
+    }
+    
     /// Creates a new user.
     func create(_ req: Request) throws -> Future<UserResponse> {
         // decode request content
