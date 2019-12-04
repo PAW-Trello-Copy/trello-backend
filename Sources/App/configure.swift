@@ -8,6 +8,12 @@ public func configure(_ config: inout Config, _ env: inout Environment, _ servic
     try services.register(FluentPostgreSQLProvider())
     try services.register(AuthenticationProvider())
     
+    //ONLY FOR RUNNING ON LOCALHOST
+    if let poolLimitRaw = Environment.get("LIMIT_POOL"),
+        let poolLimit = Int(poolLimitRaw) {
+        let serverConfig = NIOServerConfig.default(workerCount: poolLimit)
+        services.register(serverConfig)
+    }
     // Register routes to the router
     let router = EngineRouter.default()
     try routes(router)
