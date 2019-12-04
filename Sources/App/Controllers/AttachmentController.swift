@@ -43,25 +43,21 @@ final class AttachmentController {
         }
     }
     
-    func getAttachmentById(_ req: Request) throws -> Future<HTTPResponse> {
-
+    func getAttachmentById(_ req: Request) throws -> Future<AttachmentResponse> {
+        
         let attId = try req.parameters.next(Int.self)
         return Attachment.query(on: req).filter(\.id, .equal, attId).first().map { att in
             guard let att = att else {
                 throw Abort(.custom(code: 409, reasonPhrase: "Attachment with id \(attId) not found"))
             }
             
-            var message = HTTPResponse()
-            
+            var mediaType: MediaType?
             if let extIndex = att.title.lastIndex(of: ".") {
                 let type = att.title.suffix(from: att.title.index(after: extIndex))
-                message.contentType = MediaType.fileExtension(type.lowercased())
-            } else {
-                message.contentType = .init(type: "application", subType: "octet-stream")
+                mediaType = MediaType.fileExtension(type.lowercased())
             }
-
-            message.body = HTTPBody(data: att.data)
-            return message
+            
+            return AttachmentResponse(string64: att.data.base64EncodedString(), title: att.title, fileType: mediaType?.serialize())
         }
     }
     

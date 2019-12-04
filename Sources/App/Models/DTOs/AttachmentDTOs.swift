@@ -11,6 +11,12 @@ struct AttachmentUploadRequest: Content {
     var file: File
 }
 
+struct AttachmentResponse: Content {
+    var string64: String
+    var title: String
+    var fileType: String?
+}
+
 struct AttachmentInfoResponse: Content {
     var id: Int
     var filename: String
