@@ -41,14 +41,34 @@ class CardController {
         }.transform(to: .ok)
     }
 
-  func updateCardState(_ req: Request, content: UpdateCardStateRequest) throws -> Future<HTTPStatus> {
+    func updateCardState(_ req: Request, content: UpdateCardStateRequest) throws -> Future<HTTPStatus> {
         return try req.parameters.next(Card.self).map { card -> Future<Card> in
             card.archived = content.archived
             return card.save(on: req)
         }.transform(to: .ok)
     }
 
-  func deleteById(_ req: Request) throws -> Future<HTTPStatus> {
+    func addCardLabel(_ req: Request, content: AddCardLabelRequest) throws -> Future<HTTPStatus> {
+        return try Label.query(on: req).filter(\.id == content.labelId).first().flatMap{ label -> Future<CardAndLabel> in
+        return try req.parameters.next(Card.self).flatMap { card in
+            return card.labels.attach(label! , on:req)
+        }
+    }.transform(to: .ok)}
+
+    func getCardLabels(_ req: Request) throws  -> Future<[Label]> {
+        return try req.parameters.next(Card.self).flatMap {card -> Future<[Label]> in
+            return try card.labels.query(on: req).all()
+        }   
+    }
+
+    func removeCardLabel(_ req: Request, content: RemoveCardLabelRequest) throws -> Future<HTTPStatus> {
+        return try Label.query(on: req).filter(\.id == content.labelId).first().flatMap{ label -> Future<Void> in
+        return try req.parameters.next(Card.self).flatMap { card in
+            return card.labels.detach(label! , on:req)
+        }
+    }.transform(to: .ok)}
+
+    func deleteById(_ req: Request) throws -> Future<HTTPStatus> {
         return try req.parameters.next(Card.self).map { card -> Future<Void> in
             if card.archived ?? false
             {
@@ -59,5 +79,7 @@ class CardController {
         }
         }.transform(to: .ok)
     }
+
+
 
 }

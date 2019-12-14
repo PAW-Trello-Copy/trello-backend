@@ -9,6 +9,10 @@ final class Card: PostgreSQLModel {
     var description: String?
     var archived: Bool?
 
+     var labels: Siblings<Card, Label, CardAndLabel> {
+        return siblings()
+    }
+
     init(id: Int? = nil, title: String, listId: List.ID, description: String? = nil, archived: Bool? = false) {
         self.id = id
         self.title = title

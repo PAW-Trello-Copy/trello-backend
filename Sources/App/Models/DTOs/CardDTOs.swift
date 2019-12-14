@@ -23,3 +23,11 @@ struct UpdateCardDescriptionRequest: Content {
 struct UpdateCardStateRequest: Content {
     var archived: Bool
 }
+
+struct AddCardLabelRequest: Content {
+    var labelId: Label.ID
+}
+
+struct RemoveCardLabelRequest: Content {
+    var labelId: Label.ID
+}

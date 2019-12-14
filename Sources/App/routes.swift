@@ -42,11 +42,14 @@ public func routes(_ router: Router) throws {
 
     cards.get(use: cardController.getAll)
     cards.get(Card.parameter, use: cardController.getById)
+    cards.get(Card.parameter, "labels", use: cardController.getCardLabels)
     cards.post(CreateCardRequest.self, at: "create", use: cardController.create)
     cards.put(UpdateCardTitleRequest.self, at: Card.parameter, "update", "title", use: cardController.updateCardTitle)
     cards.put(UpdateCardDescriptionRequest.self, at: Card.parameter, "update", "description", use: cardController.updateCardDescription)
     cards.put(UpdateCardStateRequest.self, at: Card.parameter, "update", "archived", use: cardController.updateCardState)
     cards.delete(Card.parameter, use: cardController.deleteById)
+    cards.put(AddCardLabelRequest.self, at: Card.parameter,"add", "label", use: cardController.addCardLabel)
+    cards.put(RemoveCardLabelRequest.self, at: Card.parameter,"remove", "label", use: cardController.removeCardLabel)
 
     lists.get(List.parameter, "cards", use: cardController.getAllForList)
 
@@ -72,5 +75,18 @@ public func routes(_ router: Router) throws {
     let attachments = bearer.grouped("attachments")
     attachments.get(Int.parameter, use:attachmentController.getAttachmentById)
     attachments.delete(Attachment.parameter, use: attachmentController.deleteAttachment)
+
+    let labelController = LabelController()
+    let labels = bearer.grouped("labels")
+    labels.post(CreateLabelRequest.self, at: "create", use: labelController.create)
+    labels.delete(Label.parameter, use: labelController.deleteById)
+    labels.get(use: labelController.getAll)
+    labels.get(Label.parameter, use: labelController.getById)
+    labels.put(UpdateLabelTitleRequest.self, at: Label.parameter, "update", "title", use: labelController.updateLabelTitle)
+    labels.put(UpdateLabelColorRequest.self, at: Label.parameter, "update", "color", use: labelController.updateLabelColor)
+    
+    tables.get(Table.parameter, "labels", use: labelController.getAllForTable)
+
+
 }
     
