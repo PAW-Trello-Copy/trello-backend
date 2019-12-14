@@ -16,11 +16,17 @@ struct UpdateCommentTextRequest: Content {
     var text: String
 }
 
+struct UpdateCommentHistoryRequest: Content {
+    var history: Bool
+}
+
 struct CommentWithOwnershipStatus: Content {
     var id: Int?
     var cardId: Card.ID?
     var text: String
+    var history: Bool?
     var userId: User.ID?
     var ownedByUser: Bool
     var ownerName: String
+    
 }
