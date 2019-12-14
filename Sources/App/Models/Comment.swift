@@ -7,12 +7,14 @@ final class Comment: PostgreSQLModel {
     var cardId: Card.ID?
     var text: String
     var userId: User.ID?
+    var history: Bool?
 
-    init(id: Int? = nil, cardId: Card.ID, text: String, userId: User.ID) {
+    init(id: Int? = nil, cardId: Card.ID, text: String, userId: User.ID, history: Bool? = false) {
         self.id = id
         self.text = text
         self.cardId = cardId
         self.userId = userId
+        self.history = history
     }
 }
 
@@ -23,6 +25,7 @@ extension Comment: Migration {
             builder.field(for: \.cardId)
             builder.field(for: \.text)
             builder.field(for: \.userId)
+            builder.field(for: \.history)
         }
     }
 }

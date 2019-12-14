@@ -60,6 +60,7 @@ public func routes(_ router: Router) throws {
     comments.get(Comment.parameter, use: commentController.getById)
     comments.post(CreateCommentRequest.self, at: "create", use: commentController.create)
     comments.put(UpdateCommentTextRequest.self, at: Comment.parameter, "update", "text", use: commentController.updateCommentText)
+    comments.put(UpdateCommentHistoryRequest.self, at: Comment.parameter, "update", "history", use: commentController.updateCommentHistory)
 
     cards.get(Card.parameter, "comments", use: commentController.getAllForCard)
 

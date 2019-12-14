@@ -33,6 +33,7 @@ class CommentController {
                         id: comment.id,
                         cardId: comment.cardId,
                         text: comment.text,
+                        history: comment.history,
                         userId: comment.userId,
                         ownedByUser: comment.userId == requesterId,
                         ownerName: users.filter { user in user.id == comment.userId }.first?.name ?? "UNKNOWN")
@@ -44,6 +45,13 @@ class CommentController {
     func updateCommentText(_ req: Request, content: UpdateCommentTextRequest) throws -> Future<HTTPStatus> {
         return try req.parameters.next(Comment.self).map { comment -> Future<Comment> in
             comment.text = content.text
+            return comment.save(on: req)
+        }.transform(to: .ok)
+    }
+    
+     func updateCommentHistory(_ req: Request, content: UpdateCommentHistoryRequest) throws -> Future<HTTPStatus> {
+        return try req.parameters.next(Comment.self).map { comment -> Future<Comment> in
+            comment.history = content.history
             return comment.save(on: req)
         }.transform(to: .ok)
     }

@@ -24,4 +24,5 @@ public func migrate(migrations: inout MigrationConfig) throws {
     //table updates
     migrations.add(migration: AddCardArchivization.self, database: .psql)
     migrations.add(migration: AddTableArchivization.self, database: .psql)
+    migrations.add(migration: AddCommentHistory.self, database: .psql)
 }
