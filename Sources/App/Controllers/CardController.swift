@@ -4,11 +4,15 @@ import Vapor
 class CardController {
     
     func create(_ req: Request, content: CreateCardRequest) throws -> Future<Card> {
+        
+        let user = try req.requireAuthenticated(User.self)
         return List.query(on: req).filter(\.id == content.listId).first().flatMap { list in
             guard list != nil else {
                 throw Abort(.custom(code: 409, reasonPhrase: "List with id \(content.listId) not found"))
             }
-            return Card(title: content.title, listId: content.listId).save(on: req)
+            return Card(title: content.title, listId: content.listId).save(on: req).do { card in
+                Comment(cardId: card.id!, text: "Card created", userId: user.id!, history: true).save(on: req)
+            }
         }
     }
     
@@ -42,9 +46,12 @@ class CardController {
     }
 
     func updateCardState(_ req: Request, content: UpdateCardStateRequest) throws -> Future<HTTPStatus> {
+        let user = try req.requireAuthenticated(User.self)
         return try req.parameters.next(Card.self).map { card -> Future<Card> in
             card.archived = content.archived
-            return card.save(on: req)
+            return card.save(on: req).do { card in
+                Comment(cardId: card.id!, text: "Card archivization status changed to \(content.archived)", userId: user.id!, history: true).save(on: req)
+            }
         }.transform(to: .ok)
     }
 
