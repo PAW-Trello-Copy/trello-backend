@@ -36,7 +36,8 @@ class CommentController {
                         history: comment.history,
                         userId: comment.userId,
                         ownedByUser: comment.userId == requesterId,
-                        ownerName: users.filter { user in user.id == comment.userId }.first?.name ?? "UNKNOWN")
+                        ownerName: users.filter { user in user.id == comment.userId }.first?.name ?? "UNKNOWN",
+                        timestamp: comment.timestamp)
                 }
             }
         }

@@ -10,7 +10,7 @@ final class Comment: PostgreSQLModel {
     var history: Bool?
     var timestamp: Date?
 
-    init(id: Int? = nil, cardId: Card.ID, text: String, userId: User.ID, history: Bool? = false, timestamp: Date? = Date()) {
+    init(id: Int? = nil, cardId: Card.ID, text: String, userId: User.ID, history: Bool? = false, timestamp: Date = Date()) {
         self.id = id
         self.text = text
         self.cardId = cardId

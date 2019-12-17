@@ -28,5 +28,5 @@ struct CommentWithOwnershipStatus: Content {
     var userId: User.ID?
     var ownedByUser: Bool
     var ownerName: String
-    
+    var timestamp: Date?
 }
