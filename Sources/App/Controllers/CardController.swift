@@ -49,7 +49,7 @@ class CardController {
     }
 
     func addCardLabel(_ req: Request, content: AddCardLabelRequest) throws -> Future<HTTPStatus> {
-        return try Label.query(on: req).filter(\.id == content.labelId).first().flatMap{ label -> Future<CardAndLabel> in
+        return Label.query(on: req).filter(\.id == content.labelId).first().flatMap{ label -> Future<CardAndLabel> in
         return try req.parameters.next(Card.self).flatMap { card in
             return card.labels.attach(label! , on:req)
         }
@@ -62,7 +62,7 @@ class CardController {
     }
 
     func removeCardLabel(_ req: Request, content: RemoveCardLabelRequest) throws -> Future<HTTPStatus> {
-        return try Label.query(on: req).filter(\.id == content.labelId).first().flatMap{ label -> Future<Void> in
+        return Label.query(on: req).filter(\.id == content.labelId).first().flatMap{ label -> Future<Void> in
         return try req.parameters.next(Card.self).flatMap { card in
             return card.labels.detach(label! , on:req)
         }
