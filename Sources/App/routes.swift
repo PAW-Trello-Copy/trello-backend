@@ -75,6 +75,7 @@ public func routes(_ router: Router) throws {
     
     let attachments = bearer.grouped("attachments")
     attachments.get(Int.parameter, use:attachmentController.getAttachmentById)
+    attachments.get("file", Attachment.parameter, use: attachmentController.getAttachmentFile)
     attachments.delete(Attachment.parameter, use: attachmentController.deleteAttachment)
 
     let labelController = LabelController()

@@ -61,6 +61,20 @@ final class AttachmentController {
         }
     }
     
+    func getAttachmentFile(_ req: Request) throws -> Future<HTTPResponse> {
+        return try req.parameters.next(Attachment.self).map { attachment in
+            var message = HTTPResponse()
+            
+            if let extIndex = attachment.title.lastIndex(of: ".") {
+                let type = attachment.title.suffix(from: attachment.title.index(after: extIndex))
+                message.contentType = MediaType.fileExtension(type.lowercased())
+            }
+            message.body = HTTPBody(data: attachment.data)
+            
+            return message
+        }
+    }
+    
     func deleteAttachment(_ req: Request) throws -> Future<HTTPStatus> {
         return try req.parameters.next(Attachment.self).flatMap { att in
             return att.delete(on: req)
