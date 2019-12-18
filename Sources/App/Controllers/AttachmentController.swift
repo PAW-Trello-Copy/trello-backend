@@ -13,7 +13,9 @@ final class AttachmentController {
         return try req.parameters.next(Card.self).map { card -> Future<Attachment> in
             let user = try req.requireAuthenticated(User.self)
             
-            return Attachment(authorId: try user.requireID(), cardId: card.id, title: content.file.filename, data: content.file.data, ext: content.file.ext).save(on: req)
+            return Attachment(authorId: try user.requireID(), cardId: card.id, title: content.file.filename, data: content.file.data, ext: content.file.ext).save(on: req).do { attachment in
+                Comment(cardId: card.id!, text: "Attachment \(content.file.filename) added", userId: user.id!, history: true).save(on: req)
+            }
         }.transform(to: .ok)
     }
     
